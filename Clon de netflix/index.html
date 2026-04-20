@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineVerse — Tu Universo de Cine</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav id="nav">
+  <div class="logo">Cine<span>Verse</span></div>
+  <ul>
+    <li><a href="#" class="active">Inicio</a></li>
+    <li><a href="#">Series</a></li>
+    <li><a href="#">Películas</a></li>
+    <li><a href="#">Novedades</a></li>
+    <li><a href="#">Mi Lista</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="search-box">
+      <svg width="14" height="14" fill="none" stroke="#8a87a8" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input type="text" placeholder="Buscar títulos...">
+    </div>
+    <div class="avatar">CV</div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-img"></div>
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Estreno de la semana</div>
+    <h1>El <em>Último</em><br>Horizonte</h1>
+    <div class="hero-meta">
+      <span class="rating">★ 9.2</span>
+      <span class="dot">·</span>
+      <span>2024</span>
+      <span class="dot">·</span>
+      <span>Ciencia Ficción</span>
+      <span class="dot">·</span>
+      <span>2h 34m</span>
+    </div>
+    <p class="hero-desc">En un futuro donde la humanidad coloniza mundos distantes, una exploradora descubre que el cosmos oculta un secreto que cambiará la comprensión de la existencia para siempre.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="openModal(featuredMovie)">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+        Reproducir
+      </button>
+      <button class="btn-secondary" onclick="showToast('Añadido a tu lista ✓')">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        Mi Lista
+      </button>
+    </div>
+  </div>
+  <div class="ai-pill">
+    <div class="ai-pill-label">IA Activa</div>
+    <p>Recomendaciones personalizadas basadas en tu historial de reproducción.</p>
+  </div>
+</section>
+
+<!-- ── CONTINUAR VIENDO ── -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-title">Continuar viendo <span class="tag">Reciente</span></div>
+    <a href="#" class="see-all">Ver todo →</a>
+  </div>
+  <div class="row" id="continue-row"></div>
+</section>
+
+<!-- ── FILTROS DE GÉNERO ── -->
+<div style="padding: 0 56px; margin-bottom: 0;">
+  <div class="genre-row">
+    <button class="genre-chip active"  onclick="filterGenre(this,'all')">Todo</button>
+    <button class="genre-chip" onclick="filterGenre(this,'accion')">Acción</button>
+    <button class="genre-chip" onclick="filterGenre(this,'drama')">Drama</button>
+    <button class="genre-chip" onclick="filterGenre(this,'comedia')">Comedia</button>
+    <button class="genre-chip" onclick="filterGenre(this,'terror')">Terror</button>
+    <button class="genre-chip" onclick="filterGenre(this,'sci-fi')">Sci-Fi</button>
+    <button class="genre-chip" onclick="filterGenre(this,'romance')">Romance</button>
+    <button class="genre-chip" onclick="filterGenre(this,'documental')">Documental</button>
+  </div>
+</div>
+
+<!-- ── TENDENCIAS ── -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-title">Tendencias ahora 🔥</div>
+    <a href="#" class="see-all">Ver todo →</a>
+  </div>
+  <div class="row" id="trending-row"></div>
+</section>
+
+<!-- ── RECOMENDADOR IA ── -->
+<div class="ai-section">
+  <div class="ai-section-header">
+    <div class="ai-icon">🤖</div>
+    <div>
+      <h2>Recomendador IA</h2>
+      <p>Dime tu estado de ánimo y te recomendaré la película perfecta</p>
+    </div>
+  </div>
+  <div class="ai-input-row">
+    <input class="ai-input" id="ai-prompt" type="text"
+      placeholder="Ej: Quiero algo épico de ciencia ficción para el fin de semana..." />
+    <button class="ai-btn" id="ai-btn" onclick="askAI()">
+      <span id="ai-btn-text">✨ Recomendar</span>
+    </button>
+  </div>
+  <div class="ai-result" id="ai-result">
+    <div class="ai-result-title" id="ai-result-title"></div>
+    <div id="ai-result-body"></div>
+  </div>
+</div>
+
+<!-- ── NUEVOS LANZAMIENTOS ── -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-title">Nuevos lanzamientos ✨</div>
+    <a href="#" class="see-all">Ver todo →</a>
+  </div>
+  <div class="row" id="new-row"></div>
+</section>
+
+<!-- ── CATEGORÍAS ── -->
+<div style="padding: 0 56px; margin-bottom: 16px;">
+  <div class="section-title" style="margin-bottom:20px">Explorar por categorías</div>
+</div>
+<div class="categories-grid" id="cats-grid"></div>
+
+<!-- ── MEJOR CALIFICADAS ── -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-title">Mejor calificadas ★</div>
+    <a href="#" class="see-all">Ver todo →</a>
+  </div>
+  <div class="row" id="top-row"></div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-brand">
+    <span class="logo">Cine<span>Verse</span></span>
+    <p>Tu universo cinematográfico en un solo lugar. Más de 10,000 títulos en 4K con sonido Dolby Atmos.</p>
+  </div>
+  <div>
+    <h4>Explorar</h4>
+    <ul>
+      <li><a href="#">Series</a></li>
+      <li><a href="#">Películas</a></li>
+      <li><a href="#">Documentales</a></li>
+      <li><a href="#">Originales</a></li>
+    </ul>
+  </div>
+  <div>
+    <h4>Soporte</h4>
+    <ul>
+      <li><a href="#">Centro de ayuda</a></li>
+      <li><a href="#">Términos</a></li>
+      <li><a href="#">Privacidad</a></li>
+      <li><a href="#">Contacto</a></li>
+    </ul>
+  </div>
+  <div>
+    <h4>Cuenta</h4>
+    <ul>
+      <li><a href="#">Mi perfil</a></li>
+      <li><a href="#">Suscripción</a></li>
+      <li><a href="#">Descargas</a></li>
+      <li><a href="#">Configuración</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <p>© 2024 CineVerse. Todos los derechos reservados.</p>
+  <p style="color:var(--faint); font-size:12px">Impulsado por IA ✦ Diseño hecho con ♥</p>
+</div>
+
+<!-- ── MODAL ── -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modal">
+    <div class="modal-hero">
+      <img id="modal-img" src="" alt="">
+      <div class="modal-hero-overlay"></div>
+      <div class="modal-hero-actions">
+        <button class="btn-primary" style="font-size:13px; padding:10px 20px">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+          Reproducir
+        </button>
+        <button class="btn-secondary" style="font-size:13px; padding:10px 16px"
+          onclick="showToast('Añadido a tu lista ✓')">+ Lista</button>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <h2 id="modal-title"></h2>
+      <div class="modal-meta" id="modal-meta"></div>
+      <p class="modal-desc" id="modal-desc"></p>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast"></div>
+
+<!-- ── SCRIPTS ── -->
+<script src="app.js"></script>
+
+</body>
+</html>
